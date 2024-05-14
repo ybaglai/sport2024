@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.categories.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.category.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Category', 'route' => 'admin.categories.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -23,16 +27,19 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.category.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.category.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.category.fields.description') }}
+                            {{ trans('cruds.category.fields.type') }}
                         </th>
                         <th>
-                            {{ trans('cruds.category.fields.group_category') }}
+                            {{ trans('cruds.category.fields.year_of_birth') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_5') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.number_of_competitions') }}
                         </th>
                         <th>
                             &nbsp;
@@ -46,17 +53,19 @@
 
                             </td>
                             <td>
-                                {{ $category->id ?? '' }}
-                            </td>
-                            <td>
                                 {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $category->description ?? '' }}
+                                {{ App\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
                             </td>
                             <td>
-                                <span style="display:none">{{ $category->group_category ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $category->group_category ? 'checked' : '' }}>
+                                {{ $category->year_of_birth ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Category::APP_5_SELECT[$category->app_5] ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Category::NUMBER_OF_COMPETITIONS_SELECT[$category->number_of_competitions] ?? '' }}
                             </td>
                             <td>
                                 @can('category_show')

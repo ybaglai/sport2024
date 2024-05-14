@@ -9,7 +9,6 @@ Route::get('/home', function () {
     return redirect()->route('admin.home');
 });
 
-Route::get('userVerification/{token}', 'UserVerificationController@approve')->name('userVerification');
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -26,6 +25,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
+    // User Alerts
+    Route::delete('user-alerts/destroy', 'UserAlertsController@massDestroy')->name('user-alerts.massDestroy');
+    Route::get('user-alerts/read', 'UserAlertsController@read');
+    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]);
+
     // Competition Participants
     Route::delete('competition-participants/destroy', 'CompetitionParticipantsController@massDestroy')->name('competition-participants.massDestroy');
     Route::post('competition-participants/media', 'CompetitionParticipantsController@storeMedia')->name('competition-participants.storeMedia');
@@ -34,40 +38,41 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('competition-participants/process-csv-import', 'CompetitionParticipantsController@processCsvImport')->name('competition-participants.processCsvImport');
     Route::resource('competition-participants', 'CompetitionParticipantsController');
 
-    // Competition Card First
-    Route::delete('competition-card-firsts/destroy', 'CompetitionCardFirstController@massDestroy')->name('competition-card-firsts.massDestroy');
-    Route::resource('competition-card-firsts', 'CompetitionCardFirstController');
-
-    // Year Category
-    Route::delete('year-categories/destroy', 'YearCategoryController@massDestroy')->name('year-categories.massDestroy');
-    Route::resource('year-categories', 'YearCategoryController');
-
-    // User Alerts
-    Route::delete('user-alerts/destroy', 'UserAlertsController@massDestroy')->name('user-alerts.massDestroy');
-    Route::get('user-alerts/read', 'UserAlertsController@read');
-    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]);
-
     // Category
     Route::delete('categories/destroy', 'CategoryController@massDestroy')->name('categories.massDestroy');
+    Route::post('categories/parse-csv-import', 'CategoryController@parseCsvImport')->name('categories.parseCsvImport');
+    Route::post('categories/process-csv-import', 'CategoryController@processCsvImport')->name('categories.processCsvImport');
     Route::resource('categories', 'CategoryController');
 
-    // Type Of Competition
-    Route::delete('type-of-competitions/destroy', 'TypeOfCompetitionController@massDestroy')->name('type-of-competitions.massDestroy');
-    Route::post('type-of-competitions/media', 'TypeOfCompetitionController@storeMedia')->name('type-of-competitions.storeMedia');
-    Route::post('type-of-competitions/ckmedia', 'TypeOfCompetitionController@storeCKEditorImages')->name('type-of-competitions.storeCKEditorImages');
-    Route::resource('type-of-competitions', 'TypeOfCompetitionController');
+    // Competition Card First
+    Route::delete('competition-card-firsts/destroy', 'CompetitionCardFirstController@massDestroy')->name('competition-card-firsts.massDestroy');
+    Route::post('competition-card-firsts/parse-csv-import', 'CompetitionCardFirstController@parseCsvImport')->name('competition-card-firsts.parseCsvImport');
+    Route::post('competition-card-firsts/process-csv-import', 'CompetitionCardFirstController@processCsvImport')->name('competition-card-firsts.processCsvImport');
+    Route::resource('competition-card-firsts', 'CompetitionCardFirstController');
 
     // Judging Panel
     Route::delete('judging-panels/destroy', 'JudgingPanelController@massDestroy')->name('judging-panels.massDestroy');
     Route::resource('judging-panels', 'JudgingPanelController');
 
+    // Ivent
+    Route::delete('ivents/destroy', 'IventController@massDestroy')->name('ivents.massDestroy');
+    Route::post('ivents/media', 'IventController@storeMedia')->name('ivents.storeMedia');
+    Route::post('ivents/ckmedia', 'IventController@storeCKEditorImages')->name('ivents.storeCKEditorImages');
+    Route::post('ivents/parse-csv-import', 'IventController@parseCsvImport')->name('ivents.parseCsvImport');
+    Route::post('ivents/process-csv-import', 'IventController@processCsvImport')->name('ivents.processCsvImport');
+    Route::resource('ivents', 'IventController');
+
     // Competition Group
     Route::delete('competition-groups/destroy', 'CompetitionGroupController@massDestroy')->name('competition-groups.massDestroy');
+    Route::post('competition-groups/media', 'CompetitionGroupController@storeMedia')->name('competition-groups.storeMedia');
+    Route::post('competition-groups/ckmedia', 'CompetitionGroupController@storeCKEditorImages')->name('competition-groups.storeCKEditorImages');
+    Route::post('competition-groups/parse-csv-import', 'CompetitionGroupController@parseCsvImport')->name('competition-groups.parseCsvImport');
+    Route::post('competition-groups/process-csv-import', 'CompetitionGroupController@processCsvImport')->name('competition-groups.processCsvImport');
     Route::resource('competition-groups', 'CompetitionGroupController');
 
-    // Countries
-    Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
-    Route::resource('countries', 'CountriesController');
+    // Listindex
+    Route::delete('listindices/destroy', 'ListindexController@massDestroy')->name('listindices.massDestroy');
+    Route::resource('listindices', 'ListindexController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
