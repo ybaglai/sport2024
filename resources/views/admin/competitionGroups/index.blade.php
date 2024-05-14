@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.competition-groups.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.competitionGroup.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'CompetitionGroup', 'route' => 'admin.competition-groups.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -32,7 +36,34 @@
                             {{ trans('cruds.competitionGroup.fields.coach') }}
                         </th>
                         <th>
+                            {{ trans('cruds.competitionGroup.fields.description') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.category') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.competitionGroup.fields.competition_participants') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_wa') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_hoop') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_rope') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_ball') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_clubs') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_ribbon') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.status') }}
                         </th>
                         <th>
                             &nbsp;
@@ -55,9 +86,43 @@
                                 {{ $competitionGroup->coach ?? '' }}
                             </td>
                             <td>
+                                {{ $competitionGroup->description ?? '' }}
+                            </td>
+                            <td>
+                                {{ $competitionGroup->category->name ?? '' }}
+                            </td>
+                            <td>
                                 @foreach($competitionGroup->competition_participants as $key => $item)
                                     <span class="badge badge-info">{{ $item->fullname }}</span>
                                 @endforeach
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_wa ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_wa ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_hoop ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_hoop ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_rope ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_rope ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_ball ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_ball ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_clubs ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_clubs ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->apparatus_ribbon ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_ribbon ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $competitionGroup->status ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $competitionGroup->status ? 'checked' : '' }}>
                             </td>
                             <td>
                                 @can('competition_group_show')

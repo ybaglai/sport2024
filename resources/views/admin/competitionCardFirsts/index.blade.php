@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.competition-card-firsts.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.competitionCardFirst.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'CompetitionCardFirst', 'route' => 'admin.competition-card-firsts.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -29,82 +33,19 @@
                             {{ trans('cruds.competitionCardFirst.fields.competition_participiant') }}
                         </th>
                         <th>
+                            {{ trans('cruds.competitionParticipant.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionParticipant.fields.description') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionParticipant.fields.surname') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.competitionCardFirst.fields.competition_group') }}
                         </th>
                         <th>
                             {{ trans('cruds.competitionGroup.fields.coach') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.year_category') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.category') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.category.fields.description') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.db_1') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.db_2') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.db_3') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.db_4') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.db') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.da_1') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.da_2') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.da_3') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.da_4') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.ded') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.da') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.a_1') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.a_2') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.a_4') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.a_3') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.a') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.e_1') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.e_2') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.e_3') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.e_4') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.e') }}
                         </th>
                         <th>
                             {{ trans('cruds.competitionCardFirst.fields.db_plus_da') }}
@@ -140,6 +81,65 @@
                             &nbsp;
                         </th>
                     </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($competition_participants as $key => $item)
+                                    <option value="{{ $item->fullname }}">{{ $item->fullname }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($competition_groups as $key => $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($competitionCardFirsts as $key => $competitionCardFirst)
@@ -154,82 +154,19 @@
                                 {{ $competitionCardFirst->competition_participiant->fullname ?? '' }}
                             </td>
                             <td>
+                                {{ $competitionCardFirst->competition_participiant->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $competitionCardFirst->competition_participiant->description ?? '' }}
+                            </td>
+                            <td>
+                                {{ $competitionCardFirst->competition_participiant->surname ?? '' }}
+                            </td>
+                            <td>
                                 {{ $competitionCardFirst->competition_group->name ?? '' }}
                             </td>
                             <td>
                                 {{ $competitionCardFirst->competition_group->coach ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->year_category->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->category->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->category->description ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->db_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->db_2 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->db_3 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->db_4 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->db ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->da_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->da_2 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->da_3 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->da_4 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->ded ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->da ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->a_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->a_2 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->a_4 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->a_3 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->a ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->e_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->e_2 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->e_3 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->e_4 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $competitionCardFirst->e ?? '' }}
                             </td>
                             <td>
                                 {{ $competitionCardFirst->db_plus_da ?? '' }}
@@ -343,6 +280,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

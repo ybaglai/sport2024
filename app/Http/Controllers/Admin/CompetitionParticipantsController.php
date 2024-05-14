@@ -8,7 +8,9 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyCompetitionParticipantRequest;
 use App\Http\Requests\StoreCompetitionParticipantRequest;
 use App\Http\Requests\UpdateCompetitionParticipantRequest;
+use App\Models\Category;
 use App\Models\CompetitionParticipant;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -22,16 +24,22 @@ class CompetitionParticipantsController extends Controller
     {
         abort_if(Gate::denies('competition_participant_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionParticipants = CompetitionParticipant::with(['created_by', 'media'])->get();
+        $competitionParticipants = CompetitionParticipant::with(['category', 'created_by', 'media'])->get();
 
-        return view('admin.competitionParticipants.index', compact('competitionParticipants'));
+        $categories = Category::get();
+
+        $users = User::get();
+
+        return view('admin.competitionParticipants.index', compact('categories', 'competitionParticipants', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('competition_participant_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.competitionParticipants.create');
+        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.competitionParticipants.create', compact('categories'));
     }
 
     public function store(StoreCompetitionParticipantRequest $request)
@@ -40,6 +48,30 @@ class CompetitionParticipantsController extends Controller
 
         if ($request->input('foto', false)) {
             $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('foto'))))->toMediaCollection('foto');
+        }
+
+        if ($request->input('add_musicfor_wa', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_musicfor_wa'))))->toMediaCollection('add_musicfor_wa');
+        }
+
+        if ($request->input('add_music_for_rope', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_rope'))))->toMediaCollection('add_music_for_rope');
+        }
+
+        if ($request->input('add_music_for_hoop', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_hoop'))))->toMediaCollection('add_music_for_hoop');
+        }
+
+        if ($request->input('add_music_for_ball', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_ball'))))->toMediaCollection('add_music_for_ball');
+        }
+
+        if ($request->input('add_music_for_clubs', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_clubs'))))->toMediaCollection('add_music_for_clubs');
+        }
+
+        if ($request->input('add_music_for_ribbon', false)) {
+            $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_ribbon'))))->toMediaCollection('add_music_for_ribbon');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -53,9 +85,11 @@ class CompetitionParticipantsController extends Controller
     {
         abort_if(Gate::denies('competition_participant_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionParticipant->load('created_by');
+        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.competitionParticipants.edit', compact('competitionParticipant'));
+        $competitionParticipant->load('category', 'created_by');
+
+        return view('admin.competitionParticipants.edit', compact('categories', 'competitionParticipant'));
     }
 
     public function update(UpdateCompetitionParticipantRequest $request, CompetitionParticipant $competitionParticipant)
@@ -73,6 +107,72 @@ class CompetitionParticipantsController extends Controller
             $competitionParticipant->foto->delete();
         }
 
+        if ($request->input('add_musicfor_wa', false)) {
+            if (! $competitionParticipant->add_musicfor_wa || $request->input('add_musicfor_wa') !== $competitionParticipant->add_musicfor_wa->file_name) {
+                if ($competitionParticipant->add_musicfor_wa) {
+                    $competitionParticipant->add_musicfor_wa->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_musicfor_wa'))))->toMediaCollection('add_musicfor_wa');
+            }
+        } elseif ($competitionParticipant->add_musicfor_wa) {
+            $competitionParticipant->add_musicfor_wa->delete();
+        }
+
+        if ($request->input('add_music_for_rope', false)) {
+            if (! $competitionParticipant->add_music_for_rope || $request->input('add_music_for_rope') !== $competitionParticipant->add_music_for_rope->file_name) {
+                if ($competitionParticipant->add_music_for_rope) {
+                    $competitionParticipant->add_music_for_rope->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_rope'))))->toMediaCollection('add_music_for_rope');
+            }
+        } elseif ($competitionParticipant->add_music_for_rope) {
+            $competitionParticipant->add_music_for_rope->delete();
+        }
+
+        if ($request->input('add_music_for_hoop', false)) {
+            if (! $competitionParticipant->add_music_for_hoop || $request->input('add_music_for_hoop') !== $competitionParticipant->add_music_for_hoop->file_name) {
+                if ($competitionParticipant->add_music_for_hoop) {
+                    $competitionParticipant->add_music_for_hoop->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_hoop'))))->toMediaCollection('add_music_for_hoop');
+            }
+        } elseif ($competitionParticipant->add_music_for_hoop) {
+            $competitionParticipant->add_music_for_hoop->delete();
+        }
+
+        if ($request->input('add_music_for_ball', false)) {
+            if (! $competitionParticipant->add_music_for_ball || $request->input('add_music_for_ball') !== $competitionParticipant->add_music_for_ball->file_name) {
+                if ($competitionParticipant->add_music_for_ball) {
+                    $competitionParticipant->add_music_for_ball->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_ball'))))->toMediaCollection('add_music_for_ball');
+            }
+        } elseif ($competitionParticipant->add_music_for_ball) {
+            $competitionParticipant->add_music_for_ball->delete();
+        }
+
+        if ($request->input('add_music_for_clubs', false)) {
+            if (! $competitionParticipant->add_music_for_clubs || $request->input('add_music_for_clubs') !== $competitionParticipant->add_music_for_clubs->file_name) {
+                if ($competitionParticipant->add_music_for_clubs) {
+                    $competitionParticipant->add_music_for_clubs->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_clubs'))))->toMediaCollection('add_music_for_clubs');
+            }
+        } elseif ($competitionParticipant->add_music_for_clubs) {
+            $competitionParticipant->add_music_for_clubs->delete();
+        }
+
+        if ($request->input('add_music_for_ribbon', false)) {
+            if (! $competitionParticipant->add_music_for_ribbon || $request->input('add_music_for_ribbon') !== $competitionParticipant->add_music_for_ribbon->file_name) {
+                if ($competitionParticipant->add_music_for_ribbon) {
+                    $competitionParticipant->add_music_for_ribbon->delete();
+                }
+                $competitionParticipant->addMedia(storage_path('tmp/uploads/' . basename($request->input('add_music_for_ribbon'))))->toMediaCollection('add_music_for_ribbon');
+            }
+        } elseif ($competitionParticipant->add_music_for_ribbon) {
+            $competitionParticipant->add_music_for_ribbon->delete();
+        }
+
         return redirect()->route('admin.competition-participants.index');
     }
 
@@ -80,7 +180,7 @@ class CompetitionParticipantsController extends Controller
     {
         abort_if(Gate::denies('competition_participant_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionParticipant->load('created_by', 'competitionParticipantsCompetitionGroups');
+        $competitionParticipant->load('category', 'created_by', 'competitionParticipiantCompetitionCardFirsts', 'competitionParticipantsCompetitionGroups');
 
         return view('admin.competitionParticipants.show', compact('competitionParticipant'));
     }

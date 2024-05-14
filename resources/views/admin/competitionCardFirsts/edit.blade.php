@@ -39,34 +39,6 @@
                 <span class="help-block">{{ trans('cruds.competitionCardFirst.fields.competition_group_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="year_category_id">{{ trans('cruds.competitionCardFirst.fields.year_category') }}</label>
-                <select class="form-control select2 {{ $errors->has('year_category') ? 'is-invalid' : '' }}" name="year_category_id" id="year_category_id">
-                    @foreach($year_categories as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('year_category_id') ? old('year_category_id') : $competitionCardFirst->year_category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('year_category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('year_category') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.competitionCardFirst.fields.year_category_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="category_id">{{ trans('cruds.competitionCardFirst.fields.category') }}</label>
-                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categories as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $competitionCardFirst->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('category') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.competitionCardFirst.fields.category_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="db_1">{{ trans('cruds.competitionCardFirst.fields.db_1') }}</label>
                 <input class="form-control {{ $errors->has('db_1') ? 'is-invalid' : '' }}" type="number" name="db_1" id="db_1" value="{{ old('db_1', $competitionCardFirst->db_1) }}" step="0.001">
                 @if($errors->has('db_1'))

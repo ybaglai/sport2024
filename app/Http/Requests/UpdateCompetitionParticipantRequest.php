@@ -17,6 +17,17 @@ class UpdateCompetitionParticipantRequest extends FormRequest
     public function rules()
     {
         return [
+            'type' => [
+                'required',
+            ],
+            'fig_licence_nr' => [
+                'string',
+                'nullable',
+            ],
+            'national_lic' => [
+                'string',
+                'nullable',
+            ],
             'surname' => [
                 'string',
                 'required',
@@ -29,15 +40,31 @@ class UpdateCompetitionParticipantRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'year_of_birth' => [
+                'string',
+                'nullable',
+            ],
+            'coaches' => [
+                'string',
+                'nullable',
+            ],
             'organization' => [
                 'string',
                 'nullable',
             ],
-            'coach' => [
+            'country' => [
                 'string',
                 'nullable',
             ],
             'city' => [
+                'string',
+                'nullable',
+            ],
+            'email' => [
+                'string',
+                'nullable',
+            ],
+            'contact_address' => [
                 'string',
                 'nullable',
             ],
@@ -46,6 +73,30 @@ class UpdateCompetitionParticipantRequest extends FormRequest
                 'nullable',
             ],
             'code' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_wa_logo' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_rope_foto' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_hoop_foto' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_ball_foto' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_clubs_foto' => [
+                'string',
+                'nullable',
+            ],
+            'apparatus_ribbon_foto' => [
                 'string',
                 'nullable',
             ],
