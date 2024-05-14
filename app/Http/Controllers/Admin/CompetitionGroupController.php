@@ -3,22 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyCompetitionGroupRequest;
 use App\Http\Requests\StoreCompetitionGroupRequest;
 use App\Http\Requests\UpdateCompetitionGroupRequest;
+use App\Models\Category;
 use App\Models\CompetitionGroup;
 use App\Models\CompetitionParticipant;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompetitionGroupController extends Controller
 {
+    use MediaUploadingTrait, CsvImportTrait;
+
     public function index()
     {
         abort_if(Gate::denies('competition_group_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionGroups = CompetitionGroup::with(['competition_participants', 'created_by'])->get();
+        $competitionGroups = CompetitionGroup::with(['category', 'competition_participants', 'created_by', 'media'])->get();
 
         return view('admin.competitionGroups.index', compact('competitionGroups'));
     }
@@ -27,15 +33,24 @@ class CompetitionGroupController extends Controller
     {
         abort_if(Gate::denies('competition_group_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $competition_participants = CompetitionParticipant::pluck('fullname', 'id');
 
-        return view('admin.competitionGroups.create', compact('competition_participants'));
+        return view('admin.competitionGroups.create', compact('categories', 'competition_participants'));
     }
 
     public function store(StoreCompetitionGroupRequest $request)
     {
         $competitionGroup = CompetitionGroup::create($request->all());
         $competitionGroup->competition_participants()->sync($request->input('competition_participants', []));
+        if ($request->input('music_group', false)) {
+            $competitionGroup->addMedia(storage_path('tmp/uploads/' . basename($request->input('music_group'))))->toMediaCollection('music_group');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $competitionGroup->id]);
+        }
 
         return redirect()->route('admin.competition-groups.index');
     }
@@ -44,17 +59,29 @@ class CompetitionGroupController extends Controller
     {
         abort_if(Gate::denies('competition_group_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $competition_participants = CompetitionParticipant::pluck('fullname', 'id');
 
-        $competitionGroup->load('competition_participants', 'created_by');
+        $competitionGroup->load('category', 'competition_participants', 'created_by');
 
-        return view('admin.competitionGroups.edit', compact('competitionGroup', 'competition_participants'));
+        return view('admin.competitionGroups.edit', compact('categories', 'competitionGroup', 'competition_participants'));
     }
 
     public function update(UpdateCompetitionGroupRequest $request, CompetitionGroup $competitionGroup)
     {
         $competitionGroup->update($request->all());
         $competitionGroup->competition_participants()->sync($request->input('competition_participants', []));
+        if ($request->input('music_group', false)) {
+            if (! $competitionGroup->music_group || $request->input('music_group') !== $competitionGroup->music_group->file_name) {
+                if ($competitionGroup->music_group) {
+                    $competitionGroup->music_group->delete();
+                }
+                $competitionGroup->addMedia(storage_path('tmp/uploads/' . basename($request->input('music_group'))))->toMediaCollection('music_group');
+            }
+        } elseif ($competitionGroup->music_group) {
+            $competitionGroup->music_group->delete();
+        }
 
         return redirect()->route('admin.competition-groups.index');
     }
@@ -63,7 +90,7 @@ class CompetitionGroupController extends Controller
     {
         abort_if(Gate::denies('competition_group_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionGroup->load('competition_participants', 'created_by');
+        $competitionGroup->load('category', 'competition_participants', 'created_by', 'competitionGroupCompetitionCardFirsts');
 
         return view('admin.competitionGroups.show', compact('competitionGroup'));
     }
@@ -86,5 +113,17 @@ class CompetitionGroupController extends Controller
         }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('competition_group_create') && Gate::denies('competition_group_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new CompetitionGroup();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

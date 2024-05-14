@@ -33,16 +33,58 @@
                             {{ trans('cruds.competitionParticipant.fields.fullname') }}
                         </th>
                         <th>
-                            {{ trans('cruds.competitionParticipant.fields.organization') }}
+                            {{ trans('cruds.competitionParticipant.fields.year_of_birth') }}
                         </th>
                         <th>
-                            {{ trans('cruds.competitionParticipant.fields.coach') }}
+                            {{ trans('cruds.competitionParticipant.fields.coaches') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionParticipant.fields.age_group') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionParticipant.fields.organization') }}
                         </th>
                         <th>
                             {{ trans('cruds.competitionParticipant.fields.city') }}
                         </th>
                         <th>
+                            {{ trans('cruds.competitionParticipant.fields.category') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.description') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.year_of_birth') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_1') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_2') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_3') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_4') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_5') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_6') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.category.fields.app_in_final') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.competitionParticipant.fields.link_to_the_archive') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.competitionParticipant.fields.max_checkboxes') }}
                         </th>
                         <th>
                             {{ trans('cruds.competitionParticipant.fields.status') }}
@@ -50,6 +92,79 @@
                         <th>
                             &nbsp;
                         </th>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search" strict="true">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach(App\Models\CompetitionParticipant::AGE_GROUP_SELECT as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($categories as $key => $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search" strict="true">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach(App\Models\CompetitionParticipant::MAX_CHECKBOXES_SELECT as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,16 +180,74 @@
                                 {{ $competitionParticipant->fullname ?? '' }}
                             </td>
                             <td>
-                                {{ $competitionParticipant->organization ?? '' }}
+                                {{ $competitionParticipant->year_of_birth ?? '' }}
                             </td>
                             <td>
-                                {{ $competitionParticipant->coach ?? '' }}
+                                {{ $competitionParticipant->coaches ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\CompetitionParticipant::AGE_GROUP_SELECT[$competitionParticipant->age_group] ?? '' }}
+                            </td>
+                            <td>
+                                {{ $competitionParticipant->organization ?? '' }}
                             </td>
                             <td>
                                 {{ $competitionParticipant->city ?? '' }}
                             </td>
                             <td>
+                                {{ $competitionParticipant->category->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $competitionParticipant->category->description ?? '' }}
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::TYPE_SELECT[$competitionParticipant->category->type] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                {{ $competitionParticipant->category->year_of_birth ?? '' }}
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_1_SELECT[$competitionParticipant->category->app_1] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_2_SELECT[$competitionParticipant->category->app_2] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_3_SELECT[$competitionParticipant->category->app_3] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_4_SELECT[$competitionParticipant->category->app_4] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_5_SELECT[$competitionParticipant->category->app_5] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_6_SELECT[$competitionParticipant->category->app_6] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($competitionParticipant->category)
+                                    {{ $competitionParticipant->category::APP_IN_FINAL_SELECT[$competitionParticipant->category->app_in_final] ?? '' }}
+                                @endif
+                            </td>
+                            <td>
                                 {{ $competitionParticipant->link_to_the_archive ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\CompetitionParticipant::MAX_CHECKBOXES_SELECT[$competitionParticipant->max_checkboxes] ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $competitionParticipant->status ?? '' }}</span>
@@ -160,6 +333,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

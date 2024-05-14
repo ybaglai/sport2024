@@ -21,6 +21,10 @@ class UpdateCategoryRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'year_of_birth' => [
+                'string',
+                'nullable',
+            ],
             'description' => [
                 'string',
                 'nullable',

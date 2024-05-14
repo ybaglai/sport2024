@@ -41,22 +41,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.competitionCardFirst.fields.year_category') }}
-                        </th>
-                        <td>
-                            {{ $competitionCardFirst->year_category->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.competitionCardFirst.fields.category') }}
-                        </th>
-                        <td>
-                            {{ $competitionCardFirst->category->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.competitionCardFirst.fields.db_1') }}
                         </th>
                         <td>
