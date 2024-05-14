@@ -41,12 +41,92 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.competitionGroup.fields.description') }}
+                        </th>
+                        <td>
+                            {{ $competitionGroup->description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.category') }}
+                        </th>
+                        <td>
+                            {{ $competitionGroup->category->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.competitionGroup.fields.competition_participants') }}
                         </th>
                         <td>
                             @foreach($competitionGroup->competition_participants as $key => $competition_participants)
                                 <span class="label label-info">{{ $competition_participants->fullname }}</span>
                             @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_wa') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_wa ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_hoop') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_hoop ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_rope') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_rope ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_ball') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_ball ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_clubs') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_clubs ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.apparatus_ribbon') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->apparatus_ribbon ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.max_checkboxes') }}
+                        </th>
+                        <td>
+                            {{ $competitionGroup->max_checkboxes }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.competitionGroup.fields.status') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $competitionGroup->status ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>
@@ -60,6 +140,22 @@
     </div>
 </div>
 
-
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#competition_group_competition_card_firsts" role="tab" data-toggle="tab">
+                {{ trans('cruds.competitionCardFirst.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="competition_group_competition_card_firsts">
+            @includeIf('admin.competitionGroups.relationships.competitionGroupCompetitionCardFirsts', ['competitionCardFirsts' => $competitionGroup->competitionGroupCompetitionCardFirsts])
+        </div>
+    </div>
+</div>
 
 @endsection

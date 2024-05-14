@@ -3,27 +3,35 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyCompetitionCardFirstRequest;
 use App\Http\Requests\StoreCompetitionCardFirstRequest;
 use App\Http\Requests\UpdateCompetitionCardFirstRequest;
-use App\Models\Category;
 use App\Models\CompetitionCardFirst;
 use App\Models\CompetitionGroup;
 use App\Models\CompetitionParticipant;
-use App\Models\YearCategory;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompetitionCardFirstController extends Controller
 {
+    use CsvImportTrait;
+
     public function index()
     {
         abort_if(Gate::denies('competition_card_first_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionCardFirsts = CompetitionCardFirst::with(['competition_participiant', 'competition_group', 'year_category', 'category', 'created_by'])->get();
+        $competitionCardFirsts = CompetitionCardFirst::with(['competition_participiant', 'competition_group', 'created_by'])->get();
 
-        return view('admin.competitionCardFirsts.index', compact('competitionCardFirsts'));
+        $competition_participants = CompetitionParticipant::get();
+
+        $competition_groups = CompetitionGroup::get();
+
+        $users = User::get();
+
+        return view('admin.competitionCardFirsts.index', compact('competitionCardFirsts', 'competition_groups', 'competition_participants', 'users'));
     }
 
     public function create()
@@ -34,11 +42,7 @@ class CompetitionCardFirstController extends Controller
 
         $competition_groups = CompetitionGroup::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $year_categories = YearCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.competitionCardFirsts.create', compact('categories', 'competition_groups', 'competition_participiants', 'year_categories'));
+        return view('admin.competitionCardFirsts.create', compact('competition_groups', 'competition_participiants'));
     }
 
     public function store(StoreCompetitionCardFirstRequest $request)
@@ -56,13 +60,9 @@ class CompetitionCardFirstController extends Controller
 
         $competition_groups = CompetitionGroup::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $year_categories = YearCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $competitionCardFirst->load('competition_participiant', 'competition_group', 'created_by');
 
-        $categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $competitionCardFirst->load('competition_participiant', 'competition_group', 'year_category', 'category', 'created_by');
-
-        return view('admin.competitionCardFirsts.edit', compact('categories', 'competitionCardFirst', 'competition_groups', 'competition_participiants', 'year_categories'));
+        return view('admin.competitionCardFirsts.edit', compact('competitionCardFirst', 'competition_groups', 'competition_participiants'));
     }
 
     public function update(UpdateCompetitionCardFirstRequest $request, CompetitionCardFirst $competitionCardFirst)
@@ -76,7 +76,7 @@ class CompetitionCardFirstController extends Controller
     {
         abort_if(Gate::denies('competition_card_first_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $competitionCardFirst->load('competition_participiant', 'competition_group', 'year_category', 'category', 'created_by');
+        $competitionCardFirst->load('competition_participiant', 'competition_group', 'created_by');
 
         return view('admin.competitionCardFirsts.show', compact('competitionCardFirst'));
     }

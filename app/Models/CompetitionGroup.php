@@ -23,6 +23,16 @@ class CompetitionGroup extends Model
     protected $fillable = [
         'name',
         'coach',
+        'description',
+        'category_id',
+        'apparatus_wa',
+        'apparatus_hoop',
+        'apparatus_rope',
+        'apparatus_ball',
+        'apparatus_clubs',
+        'apparatus_ribbon',
+        'max_checkboxes',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -32,6 +42,16 @@ class CompetitionGroup extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function competitionGroupCompetitionCardFirsts()
+    {
+        return $this->hasMany(CompetitionCardFirst::class, 'competition_group_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function competition_participants()

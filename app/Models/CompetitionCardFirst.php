@@ -25,8 +25,6 @@ class CompetitionCardFirst extends Model
     protected $fillable = [
         'competition_participiant_id',
         'competition_group_id',
-        'year_category_id',
-        'category_id',
         'db_1',
         'db_2',
         'db_3',
@@ -77,16 +75,6 @@ class CompetitionCardFirst extends Model
     public function competition_group()
     {
         return $this->belongsTo(CompetitionGroup::class, 'competition_group_id');
-    }
-
-    public function year_category()
-    {
-        return $this->belongsTo(YearCategory::class, 'year_category_id');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function getDateAttribute($value)

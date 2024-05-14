@@ -25,11 +25,19 @@ class StoreCompetitionGroupRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'category_id' => [
+                'required',
+                'integer',
+            ],
             'competition_participants.*' => [
                 'integer',
             ],
             'competition_participants' => [
                 'array',
+            ],
+            'max_checkboxes' => [
+                'string',
+                'nullable',
             ],
         ];
     }

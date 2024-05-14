@@ -76,194 +76,166 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 17,
-                'title' => 'liko_cup_access',
-            ],
-            [
-                'id'    => 18,
-                'title' => 'competition_participant_create',
-            ],
-            [
-                'id'    => 19,
-                'title' => 'competition_participant_edit',
-            ],
-            [
-                'id'    => 20,
-                'title' => 'competition_participant_show',
-            ],
-            [
-                'id'    => 21,
-                'title' => 'competition_participant_delete',
-            ],
-            [
-                'id'    => 22,
-                'title' => 'competition_participant_access',
-            ],
-            [
-                'id'    => 23,
-                'title' => 'liko_cup_admin_access',
-            ],
-            [
-                'id'    => 24,
-                'title' => 'competition_card_first_create',
-            ],
-            [
-                'id'    => 25,
-                'title' => 'competition_card_first_edit',
-            ],
-            [
-                'id'    => 26,
-                'title' => 'competition_card_first_show',
-            ],
-            [
-                'id'    => 27,
-                'title' => 'competition_card_first_delete',
-            ],
-            [
-                'id'    => 28,
-                'title' => 'competition_card_first_access',
-            ],
-            [
-                'id'    => 29,
-                'title' => 'event_parameter_access',
-            ],
-            [
-                'id'    => 30,
-                'title' => 'year_category_create',
-            ],
-            [
-                'id'    => 31,
-                'title' => 'year_category_edit',
-            ],
-            [
-                'id'    => 32,
-                'title' => 'year_category_show',
-            ],
-            [
-                'id'    => 33,
-                'title' => 'year_category_delete',
-            ],
-            [
-                'id'    => 34,
-                'title' => 'year_category_access',
-            ],
-            [
-                'id'    => 35,
                 'title' => 'user_alert_create',
             ],
             [
-                'id'    => 36,
+                'id'    => 18,
                 'title' => 'user_alert_show',
             ],
             [
-                'id'    => 37,
+                'id'    => 19,
                 'title' => 'user_alert_delete',
             ],
             [
-                'id'    => 38,
+                'id'    => 20,
                 'title' => 'user_alert_access',
             ],
             [
-                'id'    => 39,
+                'id'    => 21,
+                'title' => 'liko_cup_access',
+            ],
+            [
+                'id'    => 22,
+                'title' => 'competition_participant_create',
+            ],
+            [
+                'id'    => 23,
+                'title' => 'competition_participant_edit',
+            ],
+            [
+                'id'    => 24,
+                'title' => 'competition_participant_show',
+            ],
+            [
+                'id'    => 25,
+                'title' => 'competition_participant_delete',
+            ],
+            [
+                'id'    => 26,
+                'title' => 'competition_participant_access',
+            ],
+            [
+                'id'    => 27,
                 'title' => 'category_create',
             ],
             [
-                'id'    => 40,
+                'id'    => 28,
                 'title' => 'category_edit',
             ],
             [
-                'id'    => 41,
+                'id'    => 29,
                 'title' => 'category_show',
             ],
             [
-                'id'    => 42,
+                'id'    => 30,
                 'title' => 'category_delete',
             ],
             [
-                'id'    => 43,
+                'id'    => 31,
                 'title' => 'category_access',
             ],
             [
-                'id'    => 44,
-                'title' => 'type_of_competition_create',
+                'id'    => 32,
+                'title' => 'competition_card_first_create',
             ],
             [
-                'id'    => 45,
-                'title' => 'type_of_competition_edit',
+                'id'    => 33,
+                'title' => 'competition_card_first_edit',
             ],
             [
-                'id'    => 46,
-                'title' => 'type_of_competition_show',
+                'id'    => 34,
+                'title' => 'competition_card_first_show',
             ],
             [
-                'id'    => 47,
-                'title' => 'type_of_competition_delete',
+                'id'    => 35,
+                'title' => 'competition_card_first_delete',
             ],
             [
-                'id'    => 48,
-                'title' => 'type_of_competition_access',
+                'id'    => 36,
+                'title' => 'competition_card_first_access',
             ],
             [
-                'id'    => 49,
+                'id'    => 37,
                 'title' => 'judging_panel_create',
             ],
             [
-                'id'    => 50,
+                'id'    => 38,
                 'title' => 'judging_panel_edit',
             ],
             [
-                'id'    => 51,
+                'id'    => 39,
                 'title' => 'judging_panel_show',
             ],
             [
-                'id'    => 52,
+                'id'    => 40,
                 'title' => 'judging_panel_delete',
             ],
             [
-                'id'    => 53,
+                'id'    => 41,
                 'title' => 'judging_panel_access',
             ],
             [
-                'id'    => 54,
+                'id'    => 42,
+                'title' => 'ivent_create',
+            ],
+            [
+                'id'    => 43,
+                'title' => 'ivent_edit',
+            ],
+            [
+                'id'    => 44,
+                'title' => 'ivent_show',
+            ],
+            [
+                'id'    => 45,
+                'title' => 'ivent_delete',
+            ],
+            [
+                'id'    => 46,
+                'title' => 'ivent_access',
+            ],
+            [
+                'id'    => 47,
                 'title' => 'competition_group_create',
             ],
             [
-                'id'    => 55,
+                'id'    => 48,
                 'title' => 'competition_group_edit',
             ],
             [
-                'id'    => 56,
+                'id'    => 49,
                 'title' => 'competition_group_show',
             ],
             [
-                'id'    => 57,
+                'id'    => 50,
                 'title' => 'competition_group_delete',
             ],
             [
-                'id'    => 58,
+                'id'    => 51,
                 'title' => 'competition_group_access',
             ],
             [
-                'id'    => 59,
-                'title' => 'country_create',
+                'id'    => 52,
+                'title' => 'listindex_create',
             ],
             [
-                'id'    => 60,
-                'title' => 'country_edit',
+                'id'    => 53,
+                'title' => 'listindex_edit',
             ],
             [
-                'id'    => 61,
-                'title' => 'country_show',
+                'id'    => 54,
+                'title' => 'listindex_show',
             ],
             [
-                'id'    => 62,
-                'title' => 'country_delete',
+                'id'    => 55,
+                'title' => 'listindex_delete',
             ],
             [
-                'id'    => 63,
-                'title' => 'country_access',
+                'id'    => 56,
+                'title' => 'listindex_access',
             ],
             [
-                'id'    => 64,
+                'id'    => 57,
                 'title' => 'profile_password_edit',
             ],
         ];

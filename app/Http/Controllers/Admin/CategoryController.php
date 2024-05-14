@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyCategoryRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -13,11 +14,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+    use CsvImportTrait;
+
     public function index()
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::all();
+        $categories = Category::with(['created_by'])->get();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -40,6 +43,8 @@ class CategoryController extends Controller
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $category->load('created_by');
+
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -53,6 +58,8 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $category->load('created_by', 'categoryCompetitionParticipants', 'categoryCompetitionGroups');
 
         return view('admin.categories.show', compact('category'));
     }
